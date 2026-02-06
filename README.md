@@ -18,7 +18,7 @@ Jeu extends Observable {
 class MF extends JFrame implements Observer {
     JPanel[][] tab ;
     public void update(…) {
-        tab[jeu.i][jeu.j].setPendipound(Color.RED) ;
+        tab[jeu.i][jeu.j].setBackground(Color.RED) ;
     }
 }
 
