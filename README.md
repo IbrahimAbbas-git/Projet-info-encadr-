@@ -17,7 +17,7 @@ Jeu extends Observable {
 
 class MF extends JFrame implements Observer {
     JPanel[][] tab ;
-    public void update(…) {
+    public void update(...) {
         tab[jeu.i][jeu.j].setBackground(Color.RED) ;
     }
 }
@@ -48,6 +48,11 @@ class MF extends JFrame {
             for (int j = 0 ; j < 10 ; j++) {
                 tab[i][j] = new JPanel() ;
                 pp.add(tab[i][j]) ;
+                tab[i][j].addActionListener(
+                    new ActionListener(...) {
+                        jeu.set(i, j) ;
+                    }
+                )
             }
         }
     }
