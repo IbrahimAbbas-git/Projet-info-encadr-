@@ -1,3 +1,5 @@
-public abstract class Grille {
-    //getVoisin(case) : Arraylist<Case>
+import java.util.ArrayList;
+
+public interface Grille {
+    public ArrayList<Case> getVoisin(Case c);
 }

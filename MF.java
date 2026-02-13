@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 class MF extends JFrame implements Observer {
-    JButton[][] tab = new JButton[10][10] ;
+    GrilleC grille = new GrilleC(10,10);
     public MF(Jeu j) {
         build(j) ;
 
@@ -16,30 +16,23 @@ class MF extends JFrame implements Observer {
 
     public void update(Observable o, Object jeu) {
         Jeu j = (Jeu) jeu;
-        tab[j.i][j.j].setBackground(Color.RED);
+        grille.tab[j.i][j.j].setBackground(Color.RED);
     }
 
     public void build(Jeu jeu) {
         JPanel pp = new JPanel(new GridLayout(10, 10));
-
+        
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-
-                tab[i][j] = new JButton();
-                tab[i][j].setPreferredSize(new Dimension(50, 50));
-
-                tab[i][j].setOpaque(true);
-                tab[i][j].setContentAreaFilled(true);
-                tab[i][j].setBorderPainted(true);
-
                 int x = i;
                 int y = j;
 
-                tab[i][j].addActionListener(e -> {
+                grille.tab[i][j].addActionListener(e -> {
                     jeu.set(x, y);
+                    //grille.tab[x][y].setText("X");
                 });
 
-                pp.add(tab[i][j]);
+                pp.add(grille.tab[i][j].j);
             }
         }
 

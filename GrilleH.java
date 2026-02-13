@@ -1,3 +1,3 @@
-public class GrilleH extends Grille{
+public class GrilleH implements Grille{
     
 }
