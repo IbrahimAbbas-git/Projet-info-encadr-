@@ -40,6 +40,5 @@ class MF extends JFrame implements Observer {
         }
 
         this.add(pp);
-    }
-    
+    }    
 }
