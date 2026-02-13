@@ -7,7 +7,12 @@ import javax.swing.JPanel;
 class MF extends JFrame implements Observer {
     JPanel[][] tab = new JPanel[10][10] ;
     public MF(Jeu j) {
-        build(j) ;
+        build(j);
+
+        setTitle("Démineur");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack(); // ajuste à la taille des composants
+        setLocationRelativeTo(null); // centre la fenêtre
     }
 
     public void update(Observable o, Object jeu) {
