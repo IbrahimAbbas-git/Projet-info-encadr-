@@ -10,8 +10,8 @@ class MF extends JFrame implements Observer {
 
         setTitle("Démineur") ;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
-        pack() ; // ajuste à la taille des composants
-        setLocationRelativeTo(null) ; // centre la fenêtre
+        pack() ;
+        setLocationRelativeTo(null) ;
     }
 
     public void update(Observable o, Object jeu) {
@@ -27,6 +27,10 @@ class MF extends JFrame implements Observer {
 
                 tab[i][j] = new JButton();
                 tab[i][j].setPreferredSize(new Dimension(50, 50));
+
+                tab[i][j].setOpaque(true);
+                tab[i][j].setContentAreaFilled(true);
+                tab[i][j].setBorderPainted(true);
 
                 int x = i;
                 int y = j;
