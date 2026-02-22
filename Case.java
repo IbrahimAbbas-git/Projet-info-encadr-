@@ -25,4 +25,24 @@ public class Case {
     public void addActionListener(ActionListener l ){
         j.addActionListener(l);
     }
+
+    public void setText(String text) {
+        j.setText(text) ;
+    }
+
+    public void setFont(Font f) {
+        j.setFont(f);
+    }
+
+    public void setIcon(ImageIcon ii) {
+        j.setIcon(ii) ;
+    }
+
+    public void setDisabledIcon(ImageIcon ii) {
+        j.setDisabledIcon(ii) ;
+    }
+
+    public void setEnabled(boolean b) {
+        j.setEnabled(b) ;
+    }
 }

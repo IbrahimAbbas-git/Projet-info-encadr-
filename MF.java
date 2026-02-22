@@ -16,7 +16,7 @@ class MF extends JFrame implements Observer {
 
     public void update(Observable o, Object jeu) {
         Jeu j = (Jeu) jeu;
-        grille.tab[j.i][j.j].setBackground(Color.RED);
+        grille.tab[j.i][j.j].setBackground(Color.GRAY);
     }
 
     public void build(Jeu jeu) {
@@ -29,7 +29,15 @@ class MF extends JFrame implements Observer {
 
                 grille.tab[i][j].addActionListener(e -> {
                     jeu.set(x, y);
-                    //grille.tab[x][y].setText("X");
+                    ImageIcon bombIcon = new ImageIcon(getClass().getResource("bombe.png"));
+                    System.out.println(bombIcon.getIconWidth());
+                    Image img = bombIcon.getImage();
+                    Image scaled = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+                    bombIcon = new ImageIcon(scaled);
+                    grille.tab[x][y].setIcon(bombIcon);
+                    grille.tab[x][y].setDisabledIcon(bombIcon);
+                    grille.tab[x][y].setText("");      // vide pour enlever le texte
+                    grille.tab[x][y].setEnabled(false);        // bloque le bouton
                 });
 
                 pp.add(grille.tab[i][j].j);

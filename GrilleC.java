@@ -4,7 +4,7 @@ import java.awt.Point;
 
 public class GrilleC implements Grille{
     public Case[][] tab;
-    HashMap<Case,Point> map;
+    HashMap<Case,Point> map = new HashMap<>();
     public GrilleC(int xmax , int ymax){
         tab = new Case[xmax][ymax];
         for (int i = 0; i < xmax; i++) {
@@ -20,10 +20,10 @@ public class GrilleC implements Grille{
         if(p.x != 0){res.add(tab[p.x - 1][p.y]);}
         if(p.y !=0 ){res.add(tab[p.x][p.y - 1]);}
         if(p.x < tab.length-1){res.add(tab[p.x + 1][p.y]);}
-        if(p.y < tab.length-1){res.add(tab[p.x][p.y + 1]);}
+        if(p.y < tab[0].length-1){res.add(tab[p.x][p.y + 1]);}
         if(p.x <tab.length - 1 && p.y !=0 ){res.add(tab[p.x + 1][p.y - 1]);}
-        if(p.x <tab.length - 1 && p.y <tab.length - 1 ){res.add(tab[p.x + 1][p.y + 1]);}
-        if(p.y <tab.length - 1 && p.x !=0 ){res.add(tab[p.x - 1][p.y + 1]);}
+        if(p.x <tab.length - 1 && p.y <tab[0].length - 1 ){res.add(tab[p.x + 1][p.y + 1]);}
+        if(p.y <tab[0].length - 1 && p.x !=0 ){res.add(tab[p.x - 1][p.y + 1]);}
         if(p.x !=0 && p.y !=0 ){res.add(tab[p.x - 1][p.y - 1]);}
         return res;
     }

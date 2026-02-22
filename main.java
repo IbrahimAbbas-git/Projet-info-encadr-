@@ -5,8 +5,8 @@ import java.util.Observable;
 public class main {
     public static void main(String[] args) {
         try {
-            javax.swing.UIManager.setLookAndFeel(
-                javax.swing.UIManager.getCrossPlatformLookAndFeelClassName()
+            UIManager.setLookAndFeel(
+                UIManager.getCrossPlatformLookAndFeelClassName()
             );
         } catch (Exception e) {
             e.printStackTrace();
