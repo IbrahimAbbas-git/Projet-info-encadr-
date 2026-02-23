@@ -1,7 +1,10 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import java.awt.Point;
+
+import javax.swing.ImageIcon;
+
+import java.awt.*;
 
 public class GrilleC implements Grille{
     public Case[][] tab;
@@ -60,26 +63,35 @@ public class GrilleC implements Grille{
         else{
             System.out.println("BOOM! Game Over!");
         }
-        tab[p.x][p.y].value = EnumCase.EST_CLICK;
         ArrayList<Case> voisin = getVoisin(c);
         int nb_mines = 0; 
         for(int i = 0;i < voisin.size(); i++){
             if(voisin.get(i).value == EnumCase.MINE){
                 nb_mines++;
             }
-            else{
-                if(voisin.get(i).value !=EnumCase.EST_CLICK &&  voisin.get(i).value !=EnumCase.MINE){
-                    voisin.get(i).j.doClick();
-                }
+            if(voisin.get(i).value == EnumCase.EST_VIDE && c.getIcon() == null){
+                voisin.get(i).j.doClick();
             }
             
         }
         if(c.value != EnumCase.MINE && nb_mines > 0){
-            System.out.println("value = " + c.value);
-            c.setText(String.valueOf(nb_mines));
-            //TODO changer pour mettre le numero nb_mines
+            ImageIcon nbIcon = new ImageIcon(getClass().getResource(nb_mines + ".png"));
+            Image img = nbIcon.getImage();
+            Image scaled = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+            nbIcon = new ImageIcon(scaled);
+            c.setIcon(nbIcon);            
         }
     }
+
+public void Finpartie(){
+    for(int i = 0;i < tab.length;i++){
+        for(int j = 0;j < tab[0].length;j++){
+            tab[i][j].j.doClick();
+            tab[i][j].setEnabled(false);
+        }
+    }
+}
+
     public Case getCase(int i , int j){return tab[i][j];}
     public void setCase(int i, int j,EnumCase e){tab[i][j].set(e);}
 }

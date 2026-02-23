@@ -37,6 +37,9 @@ public class Case {
     public void setIcon(ImageIcon ii) {
         j.setIcon(ii) ;
     }
+    public Icon getIcon() {
+        return j.getIcon() ;
+    }   
 
     public void setDisabledIcon(ImageIcon ii) {
         j.setDisabledIcon(ii) ;
