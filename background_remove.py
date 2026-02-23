@@ -14,6 +14,10 @@ def remove_back(img) :
     img.putdata(newData)
     return img
 
+img = remove_back(Image.open("drapeau.png").convert("RGBA"))
+img.save("drapeau.png")
+img = remove_back(Image.open("bombe.png").convert("RGBA"))
+img.save("bombe.png")
 img = remove_back(Image.open("un.png").convert("RGBA"))
 img.save("un.png")
 img = remove_back(Image.open("deux.png").convert("RGBA"))

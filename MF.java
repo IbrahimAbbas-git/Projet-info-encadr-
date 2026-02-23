@@ -38,6 +38,9 @@ class MF extends JFrame implements Observer {
                         grille.tab[x][y].setDisabledIcon(bombIcon);
                         grille.tab[x][y].setText("");      // vide pour enlever le texte
                         grille.tab[x][y].setEnabled(false);        // bloque le bouton
+                        SimpleUI fenetre = new SimpleUI(this) ;
+                        fenetre.setAlwaysOnTop(true);
+                        fenetre.setVisible(true);
                         //grille.Finpartie();
                     }
                     else{grille.updateGrille(grille.tab[x][y]);}
