@@ -29,7 +29,7 @@ class MF extends JFrame implements Observer {
 
                 grille.tab[i][j].addActionListener(e -> {
                     jeu.set(x, y);
-                    ImageIcon bombIcon = new ImageIcon(getClass().getResource("huit.png"));
+                    ImageIcon bombIcon = new ImageIcon(getClass().getResource("bombe.png"));
                     Image img = bombIcon.getImage();
                     Image scaled = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
                     bombIcon = new ImageIcon(scaled);
@@ -38,6 +38,9 @@ class MF extends JFrame implements Observer {
                         grille.tab[x][y].setDisabledIcon(bombIcon);
                         grille.tab[x][y].setText("");      // vide pour enlever le texte
                         grille.tab[x][y].setEnabled(false);        // bloque le bouton
+                        SimpleUI fenetre = new SimpleUI(this) ;
+                        fenetre.setAlwaysOnTop(true);
+                        fenetre.setVisible(true);
                     }
                     else{grille.updateGrille(grille.tab[x][y]);}
                 });
