@@ -21,7 +21,7 @@ class MF extends JFrame implements Observer {
 
     public void build(Jeu jeu) {
         JPanel pp = new JPanel(new GridLayout(10, 10));
-        
+
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 int x = i;
@@ -34,10 +34,12 @@ class MF extends JFrame implements Observer {
                     Image img = bombIcon.getImage();
                     Image scaled = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
                     bombIcon = new ImageIcon(scaled);
+                    grille.updateGrille(grille.tab[x][y]);
                     grille.tab[x][y].setIcon(bombIcon);
                     grille.tab[x][y].setDisabledIcon(bombIcon);
                     grille.tab[x][y].setText("");      // vide pour enlever le texte
                     grille.tab[x][y].setEnabled(false);        // bloque le bouton
+                    //grille.tab[x][y].setText("X");
                 });
 
                 pp.add(grille.tab[i][j].j);
