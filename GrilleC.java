@@ -57,40 +57,46 @@ public class GrilleC implements Grille{
     }
     public void updateGrille(Case c){
         Point p = map.get(c);
-        if(tab[p.x][p.y].value != EnumCase.MINE){
-            tab[p.x][p.y].set(EnumCase.EST_CLICK);
+        if(tab[p.x][p.y].value == EnumCase.EST_CLICK) {
+            return;
         }
-        else{
+        if (tab[p.x][p.y].value == EnumCase.MINE) {
             System.out.println("BOOM! Game Over!");
+            return ;
         }
-        ArrayList<Case> voisin = getVoisin(c);
-        int nb_mines = 0; 
-        for(int i = 0;i < voisin.size(); i++){
-            if(voisin.get(i).value == EnumCase.MINE){
+        tab[p.x][p.y].set(EnumCase.EST_CLICK);
+        ArrayList<Case> voisins = getVoisin(c);
+        int nb_mines = 0;
+        for(Case v : voisins){
+            if(v.value == EnumCase.MINE){
                 nb_mines++;
             }
-            if(voisin.get(i).value == EnumCase.EST_VIDE && c.getIcon() == null){
-                voisin.get(i).j.doClick();
-            }
-            
         }
-        if(c.value != EnumCase.MINE && nb_mines > 0){
+        if(nb_mines > 0){
             ImageIcon nbIcon = new ImageIcon(getClass().getResource(nb_mines + ".png"));
             Image img = nbIcon.getImage();
             Image scaled = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
             nbIcon = new ImageIcon(scaled);
-            c.setIcon(nbIcon);            
+
+            c.setIcon(nbIcon);
+            c.j.setBackground(Color.GRAY);
+            return;
+        }
+        for(Case v : voisins){
+            if(v.value == EnumCase.EST_VIDE){
+                updateGrille(v);
+            }
         }
     }
 
-public void Finpartie(){
-    for(int i = 0;i < tab.length;i++){
-        for(int j = 0;j < tab[0].length;j++){
-            tab[i][j].j.doClick();
-            tab[i][j].setEnabled(false);
+    public void Finpartie(){
+        for(int i = 0;i < tab.length;i++){
+            for(int j = 0;j < tab[0].length;j++){
+                tab[i][j].j.doClick();
+                tab[i][j].setEnabled(false);
+            }
         }
     }
-}
 
     public Case getCase(int i , int j){return tab[i][j];}
     public void setCase(int i, int j,EnumCase e){tab[i][j].set(e);}
