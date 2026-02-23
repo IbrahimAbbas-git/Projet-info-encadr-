@@ -21,7 +21,7 @@ class MF extends JFrame implements Observer {
 
     public void build(Jeu jeu) {
         JPanel pp = new JPanel(new GridLayout(10, 10));
-        
+
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 int x = i;
@@ -29,6 +29,7 @@ class MF extends JFrame implements Observer {
 
                 grille.tab[i][j].addActionListener(e -> {
                     jeu.set(x, y);
+                    grille.updateGrille(grille.tab[x][y]);
                     //grille.tab[x][y].setText("X");
                 });
 

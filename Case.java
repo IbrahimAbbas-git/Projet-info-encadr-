@@ -12,7 +12,7 @@ public class Case {
                 j.setContentAreaFilled(true);
                 j.setBorderPainted(true);
                 // Icon icon = new ImageIcon("le chemin de l'image")
-                //j.setIcon(null);
+                //j.setIcon(icon);
                 value = EnumCase.EST_VIDE;
     }
     public void setBackground(Color c){
