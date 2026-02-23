@@ -6,21 +6,28 @@ import java.awt.Point;
 public class GrilleC implements Grille{
     public Case[][] tab;
     HashMap<Case,Point> map = new HashMap<>();
-    public GrilleC(int xmax , int ymax){
+
+    public GrilleC(int xmax , int ymax, int nbMine){
         tab = new Case[xmax][ymax];
         map = new HashMap<Case,Point>();
-        //for(int k = 0;k<nbMine;k++){
-            //do {
-                //Random random = new Random();
-            //    int rand_x = random.nextInt(10);
-              //  int rand_y = random.nextInt(10);
-          //  } while ((rand_x,rand_y)is in mine);
-         
-        //}
+        ArrayList<Point> mine = new ArrayList<Point>();
+        for(int k = 0;k<nbMine;k++){
+            int rand_x, rand_y;
+            do {
+                Random random = new Random();
+                rand_x = random.nextInt(10);
+                rand_y = random.nextInt(10);
+            } while (mine.contains(new Point(rand_x,rand_y)));
+            mine.add(new Point(rand_x,rand_y));
+            tab[rand_x][rand_y] = new Case();
+            tab[rand_x][rand_y].set(EnumCase.MINE);
+        }
         for (int i = 0; i < xmax; i++) {
             for (int j = 0; j < ymax; j++) {
-                tab[i][j]= new Case();
-                //tab[i][j].set(EnumCase.MINE);
+                if(tab[i][j] == null){
+                    tab[i][j] = new Case();
+                    tab[i][j].set(EnumCase.EST_VIDE);
+                }
                 map.put(tab[i][j], new Point(i,j));
             }
         }
@@ -47,7 +54,13 @@ public class GrilleC implements Grille{
     }
     public void updateGrille(Case c){
         Point p = map.get(c);
-        tab[p.x][p.y].value=EnumCase.EST_CLICK;
+        if(tab[p.x][p.y].value != EnumCase.MINE){
+            tab[p.x][p.y].set(EnumCase.EST_CLICK);
+        }
+        else{
+            System.out.println("BOOM! Game Over!");
+        }
+        tab[p.x][p.y].value = EnumCase.EST_CLICK;
         ArrayList<Case> voisin = getVoisin(c);
         int nb_mines = 0; 
         for(int i = 0;i < voisin.size(); i++){
@@ -55,13 +68,15 @@ public class GrilleC implements Grille{
                 nb_mines++;
             }
             else{
-                if(voisin.get(i).value !=EnumCase.EST_CLICK ){
+                if(voisin.get(i).value !=EnumCase.EST_CLICK &&  voisin.get(i).value !=EnumCase.MINE){
                     voisin.get(i).j.doClick();
                 }
             }
             
         }
-        if(c.value != EnumCase.MINE){
+        if(c.value != EnumCase.MINE && nb_mines > 0){
+            System.out.println("value = " + c.value);
+            c.setText(String.valueOf(nb_mines));
             //TODO changer pour mettre le numero nb_mines
         }
     }

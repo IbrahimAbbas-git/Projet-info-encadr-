@@ -29,8 +29,7 @@ class MF extends JFrame implements Observer {
 
                 grille.tab[i][j].addActionListener(e -> {
                     jeu.set(x, y);
-                    ImageIcon bombIcon = new ImageIcon(getClass().getResource("bombe.png"));
-                    System.out.println(bombIcon.getIconWidth());
+                    ImageIcon bombIcon = new ImageIcon(getClass().getResource("huit.png"));
                     Image img = bombIcon.getImage();
                     Image scaled = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
                     bombIcon = new ImageIcon(scaled);
