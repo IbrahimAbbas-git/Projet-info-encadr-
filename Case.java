@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
 public class Case {
@@ -24,6 +25,10 @@ public class Case {
     }
     public void addActionListener(ActionListener l ){
         j.addActionListener(l);
+    }
+
+    public void addMouseListener(MouseListener l ){
+        j.addMouseListener(l);
     }
 
     public void setText(String text) {

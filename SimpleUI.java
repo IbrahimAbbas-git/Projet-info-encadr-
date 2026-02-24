@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.* ;
+import java.awt.event.MouseEvent;
 
 public class SimpleUI extends JDialog {
 
@@ -15,5 +16,24 @@ public class SimpleUI extends JDialog {
         add(panel);
         pack();
         setLocationRelativeTo(parent); // centre sur la fenêtre principale
+    }
+    public SimpleUI(MouseEvent e) {
+        Component bouton = (Component) e.getSource();
+        Window win = SwingUtilities.getWindowAncestor(bouton);// on recupere la fenetre( principale ) qui contient le bouton
+
+        setTitle("Tu es tombé sur une mine !");
+        setModal(true); // Rend la fenêtre modale (bloque le reste)
+
+        JLabel label = new JLabel("GAME OVER !");
+        label.setFont(new Font("Arial", Font.BOLD, 80));
+        
+        JPanel panel = new JPanel();
+        panel.add(label);
+        
+        add(panel);
+        pack();
+
+        setLocationRelativeTo(win); // Centre la fenêtre par rapport à la fenêtre principale
+    
     }
 }
