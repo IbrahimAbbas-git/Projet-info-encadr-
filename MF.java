@@ -57,6 +57,7 @@ class MF extends JFrame implements Observer {
                             }
                             else{
                                 grille.tab[x][y].setIcon(null);
+                                grille.tab[x][y].j.setBackground(null);
                             }
                         }
                     }

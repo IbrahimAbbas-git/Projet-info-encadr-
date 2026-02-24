@@ -21,6 +21,19 @@ public class GrilleC implements Grille{
             }
         }
     }
+    public void setMine(int i, int j, int nbMine){
+        ArrayList<Point> mine = new ArrayList<Point>();
+        for(int k = 0;k<nbMine;k++){
+            int rand_x, rand_y;
+            do {
+                Random random = new Random();
+                rand_x = random.nextInt(10);
+                rand_y = random.nextInt(10);
+            } while (mine.contains(new Point(rand_x,rand_y))  || (i-1<=rand_x && rand_x<=i+1 && rand_y <=j+1 && rand_y >=j-1));
+            mine.add(new Point(rand_x,rand_y));
+            tab[rand_x][rand_y].set(EnumCase.MINE);
+        }
+    }
     public ArrayList<Case> getVoisin(Case c){
         Point p = map.get(c);
         ArrayList<Case> res = new ArrayList<Case>();
@@ -85,23 +98,11 @@ public class GrilleC implements Grille{
     public void Finpartie(){
         for(int i = 0;i < tab.length;i++){
             for(int j = 0;j < tab[0].length;j++){
-                tab[i][j].setEnabled(false);
-                updateGrille(tab[i][j]);
+                if(tab[i][j].value == EnumCase.MINE){
+                    tab[i][j].setEnabled(false);
+                    updateGrille(tab[i][j]);
+                }
             }
-        }
-    }
-
-    public void setMine(int i, int j, int nbMine){
-        ArrayList<Point> mine = new ArrayList<Point>();
-        for(int k = 0;k<nbMine;k++){
-            int rand_x, rand_y;
-            do {
-                Random random = new Random();
-                rand_x = random.nextInt(10);
-                rand_y = random.nextInt(10);
-            } while (mine.contains(new Point(rand_x,rand_y))  || (i-1<=rand_x && rand_x<=i+1 && rand_y <=j+1 && rand_y >=j-1));
-            mine.add(new Point(rand_x,rand_y));
-            tab[rand_x][rand_y].set(EnumCase.MINE);
         }
     }
 
