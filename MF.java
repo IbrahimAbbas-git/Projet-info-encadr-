@@ -34,16 +34,21 @@ class MF extends JFrame implements Observer {
                    public void mouseClicked(MouseEvent e) {
                     if (PremierClic) {
                         PremierClic = false;
-                        grille.setMine(x, y, 20);
+                        grille.setMine(x, y, 10);
                     }
                     jeu.set(x, y);
-                    if( SwingUtilities.isLeftMouseButton(e) ) {
+                    if (SwingUtilities.isLeftMouseButton(e)) {
                         grille.updateGrille(grille.tab[x][y]);
-                        if(grille.tab[x][y].value == EnumCase.MINE){
+
+                        if (grille.tab[x][y].value == EnumCase.MINE) {
                             grille.Finpartie();
-                            SimpleUI fenetre = new SimpleUI(e) ;
+                            SimpleUI fenetre = new SimpleUI(e); // GAME OVER
                             fenetre.setAlwaysOnTop(true);
                             fenetre.setVisible(true);
+                        } else if (grille.victoire()) {
+                            SimpleUI winFenetre = new SimpleUI("WIN ! Tu as tout gagné !\nQuelle prouesse !", MF.this);
+                            winFenetre.setAlwaysOnTop(true);
+                            winFenetre.setVisible(true);
                         }
                     }
                     else if( SwingUtilities.isRightMouseButton(e) ) {

@@ -36,4 +36,32 @@ public class SimpleUI extends JDialog {
         setLocationRelativeTo(win); // Centre la fenêtre par rapport à la fenêtre principale
     
     }
+
+    public SimpleUI(JFrame parent, String message) {
+        super(parent, message, true);
+
+        JLabel label = new JLabel(message);
+        label.setFont(new Font("Arial", Font.BOLD, 80));
+
+        JPanel panel = new JPanel();
+        panel.add(label);
+
+        add(panel);
+        pack();
+        setLocationRelativeTo(parent);
+    }
+
+    public SimpleUI(String message, JFrame parent) {
+        super(parent, message, true); // modale
+        JLabel label = new JLabel(message);
+        label.setFont(new Font("Arial", Font.BOLD, 80));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(label, BorderLayout.CENTER);
+        
+        add(panel);
+        pack();
+        setLocationRelativeTo(parent); // centre sur la fenêtre principale
+    }
 }

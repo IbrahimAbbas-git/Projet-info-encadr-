@@ -108,4 +108,16 @@ public class GrilleC implements Grille{
 
     public Case getCase(int i , int j){return tab[i][j];}
     public void setCase(int i, int j,EnumCase e){tab[i][j].set(e);}
+
+    public boolean victoire() {
+        for (int i = 0; i < tab.length; i++) {
+            for (int j = 0; j < tab[0].length; j++) {
+                Case c = tab[i][j];
+                if (c.value != EnumCase.MINE && c.value != EnumCase.EST_CLICK) {
+                    return false; // Il reste au moins une case sûre non cliquée
+                }
+            }
+        }
+        return true; // Toutes les cases sûres sont découvertes
+    }
 }
