@@ -57,4 +57,10 @@ class MF extends JFrame {
         }
     }
 }
+
+clic(int i, int j) {
+    // récupérer la case
+    // découvrir la case + algo de découverte
+    // rafraîchir
+}
 ```
