@@ -1,12 +1,12 @@
-package src.com.projet.MVC.vue;
+package src.com.projet.MVC.Vue_Controller;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.*;
 import javax.swing.*;
 
-import src.com.projet.MVC.modele.EnumCase;
-import src.com.projet.MVC.modele.GrilleH;
-import src.com.projet.MVC.modele.Jeu;
+import src.com.projet.MVC.Modele.EnumCase;
+import src.com.projet.MVC.Modele.GrilleH;
+import src.com.projet.MVC.Modele.Jeu;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

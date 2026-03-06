@@ -3,7 +3,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Jeu extends Observable {
-    int i, j ;
+    public int i, j ;
     boolean gagne = false;
 
     public void setGagne() {
@@ -15,13 +15,13 @@ public class Jeu extends Observable {
     public boolean isGagne() {
         return gagne;
     }
-    void set(int _i, int _j) {
+    public void set(int _i, int _j) {
         i = _i ;
         j = _j ;
         setChanged() ;
         notifyObservers(this) ;
     }
-    public void update(Observable o, Object arg) {
-            if ()
-    }
+    // public void update(Observable o, Object arg) {
+    //         if ()
+    // }
 }
