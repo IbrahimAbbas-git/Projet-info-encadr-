@@ -1,11 +1,17 @@
+package src.com.projet.MVC.vue;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.*;
 import javax.swing.*;
+
+import src.com.projet.MVC.modele.EnumCase;
+import src.com.projet.MVC.modele.GrilleH;
+import src.com.projet.MVC.modele.Jeu;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-class MF extends JFrame implements Observer {
+public class MF extends JFrame implements Observer {
 
     GrilleH grille = new GrilleH(10,10);
     boolean PremierClic = true;

@@ -1,4 +1,9 @@
+package src.com.projet.MVC;
 import javax.swing.*;
+
+import src.com.projet.MVC.Modele.Jeu;
+import src.com.projet.MVC.Vue_Controller.MF;
+
 import java.util.Observer;
 import java.util.Observable;
 

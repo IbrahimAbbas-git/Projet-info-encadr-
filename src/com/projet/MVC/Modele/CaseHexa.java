@@ -1,5 +1,9 @@
+package src.com.projet.MVC.Modele;
 import java.awt.*;
 import javax.swing.*;
+
+import src.com.projet.MVC.Modele.Case;
+
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
     

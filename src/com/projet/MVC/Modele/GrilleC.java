@@ -1,3 +1,4 @@
+package src.com.projet.MVC.Modele;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
