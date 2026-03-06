@@ -7,15 +7,15 @@ import javax.swing.ImageIcon;
 import java.awt.*;
 
 public class GrilleC implements Grille{
-    public Case[][] tab;
-    HashMap<Case,Point> map = new HashMap<>();
+    public CaseCarre[][] tab;
+    HashMap<CaseCarre,Point> map = new HashMap<>();
 
     public GrilleC(int xmax , int ymax){
-        tab = new Case[xmax][ymax];
-        map = new HashMap<Case,Point>();
+        tab = new CaseCarre[xmax][ymax];
+        map = new HashMap<CaseCarre,Point>();
         for (int i = 0; i < xmax; i++) {
             for (int j = 0; j < ymax; j++) {
-                    tab[i][j] = new Case();
+                    tab[i][j] = new CaseCarre();
                     tab[i][j].set(EnumCase.EST_VIDE);
                 map.put(tab[i][j], new Point(i,j));
             }
@@ -34,9 +34,9 @@ public class GrilleC implements Grille{
             tab[rand_x][rand_y].set(EnumCase.MINE);
         }
     }
-    public ArrayList<Case> getVoisin(Case c){
+    public ArrayList<CaseCarre> getVoisin(CaseCarre c){
         Point p = map.get(c);
-        ArrayList<Case> res = new ArrayList<Case>();
+        ArrayList<CaseCarre> res = new ArrayList<CaseCarre>();
         if(p.x > 0){res.add(tab[p.x - 1][p.y]);}
         if(p.y > 0 ){res.add(tab[p.x][p.y - 1]);}
         if(p.x < tab.length-1){res.add(tab[p.x + 1][p.y]);}
@@ -47,7 +47,7 @@ public class GrilleC implements Grille{
         if(p.x !=0 && p.y !=0 ){res.add(tab[p.x - 1][p.y - 1]);}
         return res;
     }
-    public void updateGrille(Case c){
+    public void updateGrille(CaseCarre c){
         Point p = map.get(c);
         if(tab[p.x][p.y].value == EnumCase.EST_CLICK) {
             return;
@@ -66,9 +66,9 @@ public class GrilleC implements Grille{
             return ;
         }
         tab[p.x][p.y].set(EnumCase.EST_CLICK);
-        ArrayList<Case> voisins = getVoisin(c);
+        ArrayList<CaseCarre> voisins = getVoisin(c);
         int nb_mines = 0;
-        for(Case v : voisins){
+        for(CaseCarre v : voisins){
             if(v.value == EnumCase.MINE){
                 nb_mines++;
             }
@@ -82,13 +82,15 @@ public class GrilleC implements Grille{
             c.setIcon(nbIcon);
             c.j.setDisabledIcon(nbIcon);
             c.j.setBackground(Color.GRAY);
+            c.j.setEnabled(false);
             return;
         }
         else{
             c.setText("");
             c.j.setBackground(Color.GRAY);
+            c.j.setEnabled(false);
         }
-        for(Case v : voisins){
+        for(CaseCarre v : voisins){
             if(v.value == EnumCase.EST_VIDE){
                 updateGrille(v);
             }
@@ -106,13 +108,14 @@ public class GrilleC implements Grille{
         }
     }
 
-    public Case getCase(int i , int j){return tab[i][j];}
+    public CaseCarre getCase(int i , int j){return tab[i][j];}
     public void setCase(int i, int j,EnumCase e){tab[i][j].set(e);}
-
+    public int getX(){return tab.length;}
+    public int getY(){return tab[0].length;}
     public boolean victoire() {
         for (int i = 0; i < tab.length; i++) {
             for (int j = 0; j < tab[0].length; j++) {
-                Case c = tab[i][j];
+                CaseCarre c = tab[i][j];
                 if (c.value != EnumCase.MINE && c.value != EnumCase.EST_CLICK) {
                     return false; // Il reste au moins une case sûre non cliquée
                 }

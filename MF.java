@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 
 class MF extends JFrame implements Observer {
 
-    GrilleC grille = new GrilleC(10,10);
+    GrilleH grille = new GrilleH(10,10);
     boolean PremierClic = true;
 
     public MF(Jeu j) {
@@ -24,11 +24,14 @@ class MF extends JFrame implements Observer {
     }
 
     public void build(Jeu jeu) {
-        JPanel pp = new JPanel(new GridLayout(10, 10));
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        int offsetX = 42;
+        int offsetY = 0;
+        JPanel pp = new JPanel(new GridLayout(grille.getX(), grille.getY()));
+        for (int i = 0; i < grille.getX(); i++) {
+            for (int j = 0; j < grille.getY(); j++) {
                 int x = i;
                 int y = j;
+    
                 grille.tab[i][j].addMouseListener(new MouseAdapter() {
                    @Override
                    public void mouseClicked(MouseEvent e) {
@@ -68,25 +71,23 @@ class MF extends JFrame implements Observer {
                     }
                 }
                 });
-                // grille.tab[i][j].addActionListener(e -> {
-                //     if (PremierClic) {
-                //         PremierClic = false;
-                //         grille.setMine(x, y, 20);
-                //     }
-                //     jeu.set(x, y);
-                //     grille.updateGrille(grille.tab[x][y]);
-                //     if(grille.tab[x][y].value == EnumCase.MINE){
-                //         grille.Finpartie();
-                //         SimpleUI fenetre = new SimpleUI(this) ;
-                //         fenetre.setAlwaysOnTop(true);
-                //         fenetre.setVisible(true);
-                //     }
-                // });
 
                 pp.add(grille.tab[i][j].j);
-            }
-        }
 
+
+                grille.tab[i][j].setBounds(offsetY, offsetX, 105, 95);
+
+                offsetX += 87;
+            
+            }     
+            if(i%2 == 0) {
+                offsetX = 0;
+            } else {
+                offsetX = 42;
+            }
+            offsetY += 76;          
+        
+        }
         this.add(pp);
     }    
 }

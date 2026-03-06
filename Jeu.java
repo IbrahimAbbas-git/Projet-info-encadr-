@@ -20,5 +20,7 @@ public class Jeu extends Observable {
         setChanged() ;
         notifyObservers(this) ;
     }
-    
+    public void update(Observable o, Object arg) {
+            if ()
+    }
 }
