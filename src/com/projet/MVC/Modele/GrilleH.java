@@ -12,19 +12,8 @@ public class GrilleH extends Grille{
 
         ArrayList<Case> res = new ArrayList<>();
 
-        int[][] dirs = {
-            {-1,0},{1,0},
-            {0,-1},{0,1},
-            {-1,1},{1,-1}
-        };
-
-        for(int[] d : dirs){
-
-            int nx = i+d[0];
-            int ny = j+d[1];
-
-            if(nx>=0 && ny>=0 && nx<x && ny<y)
-                res.add(tab[nx][ny]);
+        for(int[] v : getCoordVoisins(i,j)){
+            res.add(tab[v[0]][v[1]]);
         }
 
         return res;
@@ -34,19 +23,35 @@ public class GrilleH extends Grille{
 
         ArrayList<int[]> res = new ArrayList<>();
 
-        int[][] dirs = {
-            {-1,0},{1,0},
-            {0,-1},{0,1},
-            {-1,1},{1,-1}
+        // voisins pour lignes paires
+        int[][] voisinsPairs = {
+            {-1, 0}, {-1, -1},
+            {0, -1}, {0, 1},
+            {1, 0}, {1, -1}
         };
 
-        for(int[] d : dirs){
+        // voisins pour lignes impaires
+        int[][] voisinsImpairs = {
+            {-1, 1}, {-1, 0},
+            {0, -1}, {0, 1},
+            {1, 1}, {1, 0}
+        };
 
-            int nx = i+d[0];
-            int ny = j+d[1];
+        int[][] voisins;
+
+        if(i % 2 == 0){
+            voisins = voisinsPairs;
+        } else {
+            voisins = voisinsImpairs;
+        }
+
+        for(int[] v : voisins){
+
+            int nx = i + v[0];
+            int ny = j + v[1];
 
             if(nx>=0 && ny>=0 && nx<x && ny<y)
-                res.add(new int[]{nx,ny});
+                res.add(new int[]{nx, ny});
         }
 
         return res;

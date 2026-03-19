@@ -11,11 +11,22 @@ public class Jeu extends Observable {
     private boolean gagne = false;
 
     public Jeu(){
-        grille = new GrilleH(10,10);
+        grille = new GrilleC(10,10);
     }
 
     public Grille getGrille(){
         return grille;
+    }
+
+    public void setGrille(Grille g){
+        this.grille = g;
+
+        premierClic = true;
+        perdu = false;
+        gagne = false;
+
+        setChanged();
+        notifyObservers("REBUILD");
     }
 
     public boolean isPerdu(){ return perdu; }
