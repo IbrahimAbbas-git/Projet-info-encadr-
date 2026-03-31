@@ -113,6 +113,7 @@ public class MF extends JFrame implements Observer {
                 }
                 Timer timer = new Timer(1000, event -> {
                     button.setBorder(UIManager.getBorder("Button.border"));
+                    button.setBackground(Color.GRAY);
                 });
                 timer.setRepeats(false);
                 timer.start();
