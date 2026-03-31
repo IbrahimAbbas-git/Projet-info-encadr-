@@ -181,8 +181,27 @@ public class SimpleUI extends JDialog {
             else if(choixM.contains("Moyen")) jeu.setNbMines(jeu.getTailleX() * 2);
             else jeu.setNbMines(jeu.getTailleX() * 3);
 
+            String nomSave = "../saves/save_" + jeu.getTailleX() + "_" + jeu.getTailleY() + "_" + jeu.getNbMines() + "_" + jeu.isEstHex() + ".dat";
+            java.io.File f = new java.io.File(nomSave);
+
+            if(f.exists()){
+                int choix = JOptionPane.showConfirmDialog(
+                    null,
+                    "Une partie existe déjà avec ces paramètres. Voulez-vous la reprendre ?",
+                    "Reprendre partie ?",
+                    JOptionPane.YES_NO_OPTION
+                );
+
+                if(choix == JOptionPane.NO_OPTION){
+                    // Supprime l'ancienne sauvegarde pour recommencer une partie propre
+                    f.delete();
+                }
+            }
+
             dispose();
             jeu.initialiserPartie();
+            MF mf = new MF(jeu);
+            jeu.addObserver(mf);
         });
 
         add(panel);

@@ -14,6 +14,7 @@ public class MF extends JFrame implements Observer {
 
     private Jeu jeu;
     private JButton[][] boutons;
+    JPanel mainPanel = new JPanel(null); // panel pour tout placer manuellement
 
     public MF(Jeu j){
 
@@ -25,8 +26,6 @@ public class MF extends JFrame implements Observer {
         int taille = 50;
         System.out.println("Taille de la grille : " + x + "x" + y);
         boutons = new JButton[x][y];
-
-        setLayout(null);
 
         for(int i=0;i<x;i++)
         for(int j2=0;j2<y;j2++){
@@ -71,8 +70,30 @@ public class MF extends JFrame implements Observer {
             }
 
             b.setBounds(posX, posY, taille, taille);
-            add(b);
+            mainPanel.add(b);
         }
+
+        JButton saveButton = new JButton("Sauvegarder");
+        saveButton.setBounds(10, 10, 150, 40);
+        mainPanel.add(saveButton);
+
+        saveButton.addActionListener(e -> {
+            jeu.sauvegarder();
+            JOptionPane.showMessageDialog(this, "Partie sauvegardée !");
+        });
+
+        JButton menuButton = new JButton("Retour menu");
+        menuButton.setBounds(170, 10, 200, 40);
+        mainPanel.add(menuButton);
+
+        menuButton.addActionListener(e -> {
+            jeu.sauvegarder();
+
+            JOptionPane.showMessageDialog(this, "Partie sauvegardée !");
+
+            dispose();
+            new Jeu();
+        });
 
         setTitle("Demineur");
 
@@ -136,13 +157,25 @@ public class MF extends JFrame implements Observer {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         int decalageX = taille / 2;
 
+        int espaceBoutons = 70; // hauteur réservée pour les boutons
         // largeur réelle = colonnes + décalage possible sur une ligne impaire
         int largeur = y * taille + decalageX;
-
         // hauteur inchangée (déjà inclut le 0.75)
         int hauteur = (int)(x * taille * 0.75 + taille);
+        mainPanel.setPreferredSize(new Dimension(largeur, hauteur + espaceBoutons));
+        
+        JScrollPane scrollPane = new JScrollPane(mainPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        setContentPane(scrollPane);
 
-        getContentPane().setPreferredSize(new Dimension(largeur, hauteur));
+        saveButton.setBounds(10, hauteur + 10, 150, 40);  // 10px en dessous de la grille
+        menuButton.setBounds(170, hauteur + 10, 200, 40);
+
+        getContentPane().revalidate();
+        getContentPane().repaint();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(Math.min(largeur, (int)(screenSize.width * 0.9)), Math.min(hauteur + espaceBoutons, (int)(screenSize.height * 0.9)));
         pack();
         addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
@@ -150,6 +183,7 @@ public class MF extends JFrame implements Observer {
                 redimensionner();
             }
         });
+        update(jeu, "REBUILD");
         setVisible(true);
         redimensionner();
     }
@@ -157,6 +191,7 @@ public class MF extends JFrame implements Observer {
     public void update(Observable o,Object arg){
 
         if(arg != null && arg.equals("REBUILD")){
+            mettreAJourBoutons();
             redimensionner();
             return;
         }
@@ -170,7 +205,7 @@ public class MF extends JFrame implements Observer {
             JButton b = boutons[i][j];
 
             if(c.drapeau){
-                ImageIcon flagIcon = new ImageIcon(getClass().getResource("/src/img/drapeau.png"));
+                ImageIcon flagIcon = new ImageIcon(getClass().getResource("/img/drapeau.png"));
                 Image img = flagIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
                 flagIcon = new ImageIcon(img);
                 b.setText("");
@@ -185,7 +220,7 @@ public class MF extends JFrame implements Observer {
                 b.setBackground(Color.gray); // ou couleur par défaut
             }
             else if(c.mine){
-                ImageIcon bombIcon = new ImageIcon(getClass().getResource("/src/img/bombe.png"));
+                ImageIcon bombIcon = new ImageIcon(getClass().getResource("/img/bombe.png"));
                 Image img = bombIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
                 bombIcon = new ImageIcon(img);
                 b.setText("");
@@ -195,7 +230,7 @@ public class MF extends JFrame implements Observer {
                 b.repaint();
             }
             else if(c.nbVoisins > 0){
-                ImageIcon numIcon = new ImageIcon(getClass().getResource("/src/img/" + c.nbVoisins + ".png"));
+                ImageIcon numIcon = new ImageIcon(getClass().getResource("/img/" + c.nbVoisins + ".png"));
                 Image img = numIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
                 numIcon = new ImageIcon(img);
                 b.setText("");
@@ -286,5 +321,51 @@ public class MF extends JFrame implements Observer {
         }
 
         repaint();
+    }
+
+    private void mettreAJourBoutons() {
+        Grille g = jeu.getGrille();
+
+        for(int i=0;i<g.getX();i++)
+        for(int j=0;j<g.getY();j++){
+
+            Case c = g.getCase(i,j);
+            JButton b = boutons[i][j];
+
+            if(c.drapeau){
+                ImageIcon flagIcon = new ImageIcon(getClass().getResource("/img/drapeau.png"));
+                Image img = flagIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+                flagIcon = new ImageIcon(img);
+                b.setText("");
+                b.setIcon(flagIcon);
+                b.setBackground(Color.yellow);
+            }
+            else if(!c.revelee){
+                b.setText("");
+                b.setIcon(null);
+                b.setBackground(Color.gray);
+            }
+            else if(c.mine){
+                ImageIcon bombIcon = new ImageIcon(getClass().getResource("/img/bombe.png"));
+                Image img = bombIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+                bombIcon = new ImageIcon(img);
+                b.setText("");
+                b.setIcon(bombIcon);
+                b.setBackground(Color.WHITE);
+            }
+            else if(c.nbVoisins > 0){
+                ImageIcon numIcon = new ImageIcon(getClass().getResource("/img/" + c.nbVoisins + ".png"));
+                Image img = numIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+                numIcon = new ImageIcon(img);
+                b.setText("");
+                b.setIcon(numIcon);
+                b.setBackground(Color.WHITE); 
+            }
+            else{
+                b.setBackground(Color.WHITE);
+                b.setText("");
+                b.setIcon(null);
+            }
+        }
     }
 }

@@ -5,10 +5,17 @@ import java.util.Observable;
 
 import javax.swing.JButton;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import src.com.projet.MVC.Vue_Controller.MF;
 import src.com.projet.MVC.Vue_Controller.SimpleUI;
 
-public class Jeu extends Observable {
+public class Jeu extends Observable implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Grille grille;
     private int tailleX=10;
@@ -21,7 +28,7 @@ public class Jeu extends Observable {
 
     public Jeu(){
         SimpleUI acceuil = new SimpleUI(this);
-        acceuil.setVisible(true);    
+        acceuil.setVisible(true);
     }
     public Jeu(int tailleX,int tailleY,int nbMines,boolean estHex){
         //pour recommencer avec le boutton recommencer
@@ -33,14 +40,27 @@ public class Jeu extends Observable {
     }
 
     public void initialiserPartie() {
-        if(estHex) {
-            grille = new GrilleH(tailleX, tailleY);
+        // Tenter de charger une sauvegarde
+        Jeu sauvegarde = Jeu.charger(tailleX, tailleY, nbMines, estHex);
+
+        if (sauvegarde != null) {
+            // Restaurer l'état depuis la sauvegarde
+            this.grille = sauvegarde.getGrille(); 
+            this.premierClic = sauvegarde.premierClic;
+            this.perdu = sauvegarde.perdu;
+            this.gagne = sauvegarde.gagne;
         } else {
-            grille = new GrilleC(tailleX, tailleY);
-        }        
-        MF mf = new MF(this);
-        this.addObserver(mf);
-        mf.setVisible(true);
+            // Créer une nouvelle grille si pas de sauvegarde
+            if (estHex) {
+                grille = new GrilleH(tailleX, tailleY);
+            } else {
+                grille = new GrilleC(tailleX, tailleY);
+            }
+        }
+
+        // Notifier les observateurs pour qu'ils mettent à jour la vue
+        setChanged();
+        notifyObservers("REBUILD"); // "REBUILD" ou autre string que MF écoute pour reconstruire l'affichage
     }
 
     public Grille getGrille(){
@@ -80,11 +100,18 @@ public class Jeu extends Observable {
             grille.reveler(x,y);
         }
 
-        if(grille.victoire())
+        if(grille.victoire()) {
             gagne = true;
+            String nomSave = getNomSauvegarde();
+            java.io.File f = new java.io.File(nomSave);
+            if(f.exists()){
+                f.delete();
+                System.out.println("Sauvegarde supprimée car partie gagnée !");
+            }
+        }
 
         setChanged();
-        notifyObservers();
+        notifyObservers("CLICK");
     }
 
     public void clickDroit(int x,int y){
@@ -150,4 +177,45 @@ public class Jeu extends Observable {
     public int getTailleY(){ return tailleY; }
     public int getNbMines(){ return nbMines; }
     public boolean isEstHex(){ return estHex; }
+
+    private String getNomSauvegarde() {
+        String dir = "../saves/";
+        new java.io.File(dir).mkdirs(); // crée le dossier si nécessaire
+        return dir + "save_" + tailleX + "_" + tailleY + "_" + nbMines + "_" + estHex + ".dat";
+    }
+
+    public void sauvegarder() {
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(
+                new FileOutputStream(getNomSauvegarde())
+            );
+            oos.writeObject(this);
+            oos.close();
+            System.out.println("Sauvegarde OK");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Jeu charger(int x, int y, int mines, boolean estHex) {
+        String nom = "../saves/save_" + x + "_" + y + "_" + mines + "_" + estHex + ".dat";
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nom));
+            Jeu j = (Jeu) ois.readObject();
+            ois.close();
+            System.out.println("Chargement OK");
+            return j;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void supprimerSauvegarde() {
+        java.io.File f = new java.io.File(getNomSauvegarde());
+        if(f.exists()) {
+            boolean ok = f.delete();
+            if(ok) System.out.println("Sauvegarde supprimée");
+            else System.out.println("Impossible de supprimer la sauvegarde");
+        }
+    }
 }
