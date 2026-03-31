@@ -2,8 +2,10 @@ package src.com.projet.MVC.Modele;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.Serializable;
 
-public abstract class Grille {
+public abstract class Grille implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     protected Case[][] tab;
     protected int x;
