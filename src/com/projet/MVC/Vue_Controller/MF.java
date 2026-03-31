@@ -75,6 +75,62 @@ public class MF extends JFrame implements Observer {
         }
 
         setTitle("Demineur");
+
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.setBackground(Color.LIGHT_GRAY); 
+        JLabel minesLabel = new JLabel(" 🚩 Mines : " + jeu.getNbMines() + " ");
+        minesLabel.setFont(new Font("Arial", Font.BOLD, 14));
+
+        JButton resetButton = new JButton("🔄 Recommencer");
+        resetButton.setFont(new Font("Arial", Font.PLAIN, 14));
+        resetButton.addActionListener(e -> {
+            int X = jeu.getTailleX();
+            int Y = jeu.getTailleY();
+            int nbMines = jeu.getNbMines();
+            boolean esthex = jeu.getGrille() instanceof GrilleH;
+            jeu = new Jeu(X, Y, nbMines, esthex);
+            dispose();
+        });
+
+        JButton quitButton = new JButton("❌ Quitter");
+        quitButton.setFont(new Font("Arial", Font.PLAIN, 14));
+        quitButton.addActionListener(e -> {
+            dispose();
+            jeu = new Jeu();         
+        });
+        JButton indiceButton = new JButton("💡 Indice");
+        indiceButton.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
+        indiceButton.addActionListener(e -> {
+            int[] indice = jeu.indice(boutons);
+            if (indice != null) {
+                JButton button = boutons[indice[0]][indice[1]];
+                if(indice[2] == 1){
+                    button.setBorder(new LineBorder(Color.GREEN, 3));
+                    button.setBackground(Color.GREEN);
+                } else {
+                button.setBorder(new LineBorder(Color.BLUE, 3));
+                button.setBackground(Color.BLUE);
+                }
+                Timer timer = new Timer(1000, event -> {
+                    button.setBorder(UIManager.getBorder("Button.border"));
+                });
+                timer.setRepeats(false);
+                timer.start();
+            } else {
+                   indiceButton.setText("pas d'indice");
+                   Timer t = new Timer(1000, event -> {
+                       indiceButton.setText("💡 Indice");
+                   });
+                   t.setRepeats(false);
+                   t.start();
+            }
+        });
+        menuBar.add(minesLabel);
+        menuBar.add(resetButton);
+        menuBar.add(quitButton);
+        menuBar.add(indiceButton);
+        add(menuBar);
+        this.setJMenuBar(menuBar);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         int decalageX = taille / 2;

@@ -1,6 +1,9 @@
 package src.com.projet.MVC.Modele;
 
+import java.util.ArrayList;
 import java.util.Observable;
+
+import javax.swing.JButton;
 
 import src.com.projet.MVC.Vue_Controller.MF;
 import src.com.projet.MVC.Vue_Controller.SimpleUI;
@@ -20,6 +23,15 @@ public class Jeu extends Observable {
         SimpleUI acceuil = new SimpleUI(this);
         acceuil.setVisible(true);    
     }
+    public Jeu(int tailleX,int tailleY,int nbMines,boolean estHex){
+        //pour recommencer avec le boutton recommencer
+        this.tailleX = tailleX;
+        this.tailleY = tailleY;
+        this.nbMines = nbMines;
+        this.estHex = estHex;
+        initialiserPartie();
+    }
+
     public void initialiserPartie() {
         if(estHex) {
             grille = new GrilleH(tailleX, tailleY);
@@ -86,6 +98,42 @@ public class Jeu extends Observable {
         setChanged();
         notifyObservers();
     }
+
+    public int[] indice(JButton[][] boutons){
+        Grille grille = getGrille();
+        for(int i=0;i<grille.getX();i++)
+        {   for(int j=0;j<grille.getY();j++){
+            Case c = grille.getCase(i,j);
+            if(c.revelee && c.nbVoisins>0){
+                int nbcasevides = 0;
+                int nbDrapeaux = 0;
+                int indice[] = null;
+                for( int[] v : grille.getCoordVoisins(i,j)){
+                        Case vCase = grille.getCase(v[0],v[1]);
+                        if(!vCase.revelee && !vCase.drapeau){
+                            nbcasevides++;
+                            indice = new int[3];
+                            indice[0] = v[0];
+                            indice[1] = v[1];
+                        }
+                        if(vCase.drapeau){
+                            nbDrapeaux++;
+                        }
+                }
+                if(nbcasevides-nbDrapeaux == c.nbVoisins && nbcasevides > 0 && c.nbVoisins> nbDrapeaux){
+                    indice[2] = 1; // 1 = case avec mine
+                    return indice;
+                }
+                if(nbDrapeaux == c.nbVoisins && nbcasevides > 0){
+                    indice[2] = 0; // 0 = case sans mine
+                    return indice;
+                }
+            }
+            }
+        }
+        return null;
+    }
+
     public void setTailleX(int X){
         this.tailleX = X;
     }

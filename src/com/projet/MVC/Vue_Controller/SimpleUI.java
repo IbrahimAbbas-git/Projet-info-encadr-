@@ -58,6 +58,7 @@ public class SimpleUI extends JDialog {
         setLocationRelativeTo(parent);
     }
 
+
     public SimpleUI(JFrame parent, String message) {
         super(parent, message, true);
 
