@@ -8,12 +8,6 @@ public class Main {
     public static void main(String[] args){
 
         Jeu jeu = new Jeu();
-
-        MF mf = new MF(jeu);
-
-        jeu.addObserver(mf);
-
-        mf.setVisible(true);
     }
 
 }

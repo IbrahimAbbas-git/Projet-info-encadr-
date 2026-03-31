@@ -4,6 +4,8 @@ import java.util.Observer;
 import java.util.Observable;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+
 import java.awt.*;
 
 import src.com.projet.MVC.Modele.*;
@@ -21,7 +23,7 @@ public class MF extends JFrame implements Observer {
         int x = j.getGrille().getX();
         int y = j.getGrille().getY();
         int taille = 50;
-
+        System.out.println("Taille de la grille : " + x + "x" + y);
         boutons = new JButton[x][y];
 
         setLayout(null);
@@ -30,6 +32,7 @@ public class MF extends JFrame implements Observer {
         for(int j2=0;j2<y;j2++){
 
             JButton b = new JButton();
+            b.setBackground(Color.BLACK);
             if(estHex){
                 b = new HexButton();
             } else {
@@ -68,7 +71,6 @@ public class MF extends JFrame implements Observer {
             }
 
             b.setBounds(posX, posY, taille, taille);
-
             add(b);
         }
 
@@ -111,53 +113,54 @@ public class MF extends JFrame implements Observer {
             JButton b = boutons[i][j];
 
             if(c.drapeau){
-                ImageIcon flagIcon = new ImageIcon(getClass().getResource("/img/drapeau.png"));
+                ImageIcon flagIcon = new ImageIcon(getClass().getResource("/src/img/drapeau.png"));
                 Image img = flagIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
                 flagIcon = new ImageIcon(img);
                 b.setText("");
                 b.setIcon(flagIcon);
-                b.revalidate();
+                b.setBackground(Color.yellow);
+                b.revalidate(); 
                 b.repaint();
             }
             else if(!c.revelee){
                 b.setText("");
                 b.setIcon(null);
-                b.setBackground(null); // ou couleur par défaut
+                b.setBackground(Color.gray); // ou couleur par défaut
             }
             else if(c.mine){
-                ImageIcon bombIcon = new ImageIcon(getClass().getResource("/img/bombe.png"));
+                ImageIcon bombIcon = new ImageIcon(getClass().getResource("/src/img/bombe.png"));
                 Image img = bombIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
                 bombIcon = new ImageIcon(img);
                 b.setText("");
                 b.setIcon(bombIcon);
+                b.setBackground(Color.WHITE);
                 b.revalidate();
                 b.repaint();
             }
             else if(c.nbVoisins > 0){
-                ImageIcon numIcon = new ImageIcon(getClass().getResource("/img/" + c.nbVoisins + ".png"));
+                ImageIcon numIcon = new ImageIcon(getClass().getResource("/src/img/" + c.nbVoisins + ".png"));
                 Image img = numIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
                 numIcon = new ImageIcon(img);
                 b.setText("");
                 b.setIcon(numIcon);
-                b.setBackground(Color.GRAY); // <-- ajouté
+                b.setBackground(Color.WHITE); 
                 b.revalidate();
                 b.repaint();
             }
             else{
+                b.setBackground(Color.WHITE);
                 b.setText("");
                 b.setIcon(null);
-                b.setBackground(Color.GRAY); // <-- cases vides révélées aussi
             }
-
         }
 
         if(jeu.isPerdu()){
-            SimpleUI gameOver = new SimpleUI(this); // fenetre modale
+            SimpleUI gameOver = new SimpleUI(this,"GAME OVER !","Tu es tombé sur une mine !");
             gameOver.setVisible(true);
         }
 
         if(jeu.isGagne()){
-            SimpleUI win = new SimpleUI("VICTOIRE ! Tu as gagné !", this);
+            SimpleUI win = new SimpleUI(this,"VICTOIRE !","Félicitations !");
             win.setVisible(true);
         }
     }
