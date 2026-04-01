@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import src.com.projet.MVC.Vue_Controller.MF;
-import src.com.projet.MVC.Vue_Controller.SimpleUI;
 
 public class Jeu extends Observable implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -27,9 +25,9 @@ public class Jeu extends Observable implements Serializable {
     private boolean gagne = false;
 
     public Jeu(){
-        SimpleUI acceuil = new SimpleUI(this);
-        acceuil.setVisible(true);
+        // constructeur vide (modèle pur)
     }
+
     public Jeu(int tailleX,int tailleY,int nbMines,boolean estHex){
         //pour recommencer avec le boutton recommencer
         this.tailleX = tailleX;

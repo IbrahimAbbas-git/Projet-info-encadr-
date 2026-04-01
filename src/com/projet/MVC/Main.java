@@ -9,5 +9,6 @@ public class Main {
     public static void main(String[] args){
         Jeu jeu = new Jeu(); // constructeur juste vide, ne crée pas de grille ni MF
         SimpleUI menu = new SimpleUI(jeu); // ouvre le menu
+        menu.setVisible(true);
     }
 }
