@@ -25,7 +25,7 @@ public class Jeu extends Observable implements Serializable {
     private boolean gagne = false;
 
     public Jeu(){
-        // constructeur vide (modèle pur)
+        
     }
 
     public Jeu(int tailleX,int tailleY,int nbMines,boolean estHex){
