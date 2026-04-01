@@ -1,66 +1,33 @@
-# Projet-info-encadr-
+# Projet informatique encadré (Démineur MVC)
 
-Vue-Contrôleur
+## Groupe
 
-```java
-m.set(i, j)
+Binôme 3 :
+- ABBAS Ibrahim
+- GANA Nahel
 
-Jeu extends Observable {
-    i, j : int
-    set(int _i, int _j) {
-        i = _i ;
-        j = _j ;
-        setChanged() ;
-        notifyObserver() ;
-    }
-}
+## Arborescence
 
-class MF extends JFrame implements Observer {
-    JPanel[][] tab ;
-    public void update(...) {
-        tab[jeu.i][jeu.j].setBackground(Color.RED) ;
-    }
-}
-
-main() {
-    Jeu j = new Jeu() ;
-    JFrame mf = new MF(j) ;
-    j.addObserver(mf) ;
-    SwingUtilities.runlater(
-    new Runnable() {
-        public void main() {
-            mf.setVisitor(tour) ;
-        }
-    )
-}
-
-package Vue-Controleur
-
-class MF extends JFrame {
-    JFrame() {
-        build() ;
-    }
-    JPanel[] tab = new JPanel[10][10]
-
-    public void build() {
-        JPanel pp = new JPanel(new Gridlayout(10, 10)) ;
-        for (int i = 0 ; i < 10 ; i++) {
-            for (int j = 0 ; j < 10 ; j++) {
-                tab[i][j] = new JPanel() ;
-                pp.add(tab[i][j]) ;
-                tab[i][j].addActionListener(
-                    new ActionListener(...) {
-                        jeu.set(i, j) ;
-                    }
-                )
-            }
-        }
-    }
-}
-
-clic(int i, int j) {
-    // récupérer la case
-    // découvrir la case + algo de découverte
-    // rafraîchir
-}
-```
+* `out` (dossier contenant le code pré-exécution)
+    * ...
+* `saves` (dossier contenant les différentes sauvegardes de jeu)
+* `src` (dossier contenant le contenu du jeu)
+    * `com/projet/MVC` (suite de dossiers contenant le code du jeu)
+        * `Modele` (dossier contenant les fichiers du côté Modèle)
+            * `Case.java` (code d'une case)
+            * `EnumCase.java` (différents statuts d'une case)
+            * `Grille.java` (code d'une grille)
+            * `GrilleC.java` (code d'une grille carrée)
+            * `GrilleH.java` (code d'une grille hexagonale)
+            * `Jeu.java` (code de gestion du jeu)
+        * `Vue_Controller` (dossier contenant les fichiers des côtés Vue et Contrôleur)
+            * `HexButton.java` (code d'affichage d'une case hexagonale)
+            * `MF.java` (code d'affichage de gestion du jeu)
+            * `SimpleUI.java` (code d'affichage du menu et de différents messages)
+        * `Main.java` (fichier de code principal)
+    * `img` (dossier contenant les images apparaissant dans le jeu)
+        * `*.png` (image de ce que représente *)
+        * `background_remove.py` (fichier enlevant l'arrière-plan d'une image)
+* `exe.sh` (fichier exécutant le code)
+* `projet.pdf` (fichier des consignes)
+* `README.md` (rapport du projet)
