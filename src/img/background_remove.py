@@ -1,17 +1,24 @@
 from PIL import Image
 
+# Fonction supprimant le fond d'écran
 def remove_back(img) :
+    # Prend les données d'images
     datas = img.getdata()
 
+    # Nouvelles données à utiliser
     newData = []
+    # Itération sur tous les éléments dans les données
     for item in datas:
         # Si le pixel est blanc, le rendre transparent
         if item[:3] == (255, 255, 255):
             newData.append((255, 255, 255, 0))
+        # Sinon, garder le même élément
         else:
             newData.append(item)
 
+    # Mettre les nouvelles données dans l'image
     img.putdata(newData)
+    # Renvoie l'image
     return img
 
 img = remove_back(Image.open("drapeau.png").convert("RGBA"))

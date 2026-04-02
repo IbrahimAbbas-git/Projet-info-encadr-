@@ -1,0 +1,29 @@
+# Dossiers de build
+out/
+bin/
+build/
+
+# Sauvegardes du jeu
+saves/
+
+# Fichiers compilés
+*.class
+
+# Logs
+*.log
+
+# Fichiers temporaires
+*.tmp
+
+# OS (Linux / Windows / Mac)
+.DS_Store
+Thumbs.db
+
+# IDE (VS Code, IntelliJ, Eclipse)
+.vscode/
+.idea/
+*.iml
+
+# Fichiers de configuration locaux
+*.swp
+*~

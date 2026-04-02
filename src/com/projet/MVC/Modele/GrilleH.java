@@ -1,59 +1,104 @@
-package src.com.projet.MVC.Modele;
+package com.projet.MVC.Modele ;
 
-import java.util.ArrayList;
+import java.util.ArrayList ;
 
-public class GrilleH extends Grille{
+/**
+ * GrilleH représente une grille de démineur de type hexagonal.
+ * <p>
+ * Les cases ont jusqu'à 6 voisins selon leur ligne (paires ou impaires).
+ * <p>
+ * Cette classe étend la classe abstraite {@link Grille}.
+ */
+public class GrilleH extends Grille {
 
-    public GrilleH(int x,int y){
-        super(x,y);
+    /**
+     * Constructeur de la grille hexagonale.
+     * <p>
+     * Initialise une grille de dimensions x * y.
+     *
+     * @param x nombre de colonnes
+     * @param y nombre de lignes
+     */
+    public GrilleH(int x, int y){
+        super(x, y) ;
     }
 
-    protected ArrayList<Case> getVoisins(int i,int j){
+    /**
+     * Retourne la liste des cases voisines d'une case donnée.
+     * <p>
+     * Pour GrilleH, les voisins sont déterminés selon la disposition hexagonale.
+     *
+     * @param i indice de la colonne de la case
+     * @param j indice de la ligne de la case
+     * @return liste des cases voisines
+     */
+    protected ArrayList<Case> getVoisins(int i, int j){
 
-        ArrayList<Case> res = new ArrayList<>();
+        // Tableau des voisins
+        ArrayList<Case> res = new ArrayList<>() ;
 
-        for(int[] v : getCoordVoisins(i,j)){
-            res.add(tab[v[0]][v[1]]);
+        // Ajout du voisin pour chaque coordonnée de voisin déjà calculée
+        for (int[] v : getCoordVoisins(i, j)) {
+            res.add(tab[v[0]][v[1]]) ;
         }
 
-        return res;
+        // Retourne le tableau des voisins
+        return res ;
     }
 
+    /**
+     * Retourne la liste des coordonnées des cases voisines d'une case donnée.
+     * <p>
+     * Pour GrilleH, les voisins sont calculés différemment selon que la ligne est paire ou impaire pour respecter la structure hexagonale.
+     *
+     * @param i indice de la colonne de la case
+     * @param j indice de la ligne de la case
+     * @return liste des coordonnées des cases voisines sous forme de tableau [x, y]
+     */
     protected ArrayList<int[]> getCoordVoisins(int i,int j){
 
-        ArrayList<int[]> res = new ArrayList<>();
+        // Tableau des coordonnées des voisins
+        ArrayList<int[]> res = new ArrayList<>() ;
 
-        // voisins pour lignes paires
+        // Voisins pour les lignes paires
         int[][] voisinsPairs = {
             {-1, 0}, {-1, -1},
             {0, -1}, {0, 1},
             {1, 0}, {1, -1}
-        };
+        } ;
 
-        // voisins pour lignes impaires
+        // Voisins pour les lignes impaires
         int[][] voisinsImpairs = {
             {-1, 1}, {-1, 0},
             {0, -1}, {0, 1},
             {1, 1}, {1, 0}
-        };
+        } ;
 
-        int[][] voisins;
+        // Tableau des voisins
+        int[][] voisins ;
 
-        if(i % 2 == 0){
-            voisins = voisinsPairs;
-        } else {
-            voisins = voisinsImpairs;
+        // Affectation des voisins selon la parité de la ligne
+        if (i % 2 == 0) {
+            voisins = voisinsPairs ;
+        }
+        else {
+            voisins = voisinsImpairs ;
         }
 
-        for(int[] v : voisins){
+        // Itération sur chaque voisin
+        for (int[] v : voisins) {
 
-            int nx = i + v[0];
-            int ny = j + v[1];
+            // Coordonnées des voisins
+            int nx = i + v[0] ;
+            int ny = j + v[1] ;
 
-            if(nx>=0 && ny>=0 && nx<x && ny<y)
-                res.add(new int[]{nx, ny});
+            // Si le voisin est dans la grille, ajouter ses coordonnées
+            if (nx >= 0 && ny >= 0 && nx < x && ny < y) {
+                res.add(new int[]{nx, ny}) ;
+            }
         }
 
-        return res;
+        // Renvoie le tableau des coordonnées des voisins
+        return res ;
     }
 }
