@@ -124,7 +124,7 @@ public class Jeu extends Observable implements Serializable {
         notifyObservers();
     }
 
-    public int[] indice(JButton[][] boutons){
+    public int[] indice(){
         Grille grille = getGrille();
         for(int i=0;i<grille.getX();i++)
         {   for(int j=0;j<grille.getY();j++){

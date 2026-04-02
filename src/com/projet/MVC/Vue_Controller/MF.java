@@ -105,11 +105,24 @@ public class MF extends JFrame implements Observer {
         JButton resetButton = new JButton("🔄 Recommencer");
         resetButton.setFont(new Font("Arial", Font.PLAIN, 14));
         resetButton.addActionListener(e -> {
+            // Supprimer la sauvegarde existante si elle existe
+            jeu.supprimerSauvegarde();
+
+            // Récupérer les paramètres actuels
             int X = jeu.getTailleX();
             int Y = jeu.getTailleY();
             int nbMines = jeu.getNbMines();
-            boolean esthex = jeu.getGrille() instanceof GrilleH;
-            jeu = new Jeu(X, Y, nbMines, esthex);
+
+            // Créer un nouveau jeu avec les mêmes paramètres
+            Jeu nouveauJeu = new Jeu(X, Y, nbMines, estHex);
+
+            // Créer une nouvelle fenêtre MF pour le nouveau jeu
+            MF nouvelleFenetre = new MF(nouveauJeu);
+
+            // Ajouter la nouvelle vue comme observateur du nouveau jeu
+            nouveauJeu.addObserver(nouvelleFenetre);
+
+            // Fermer l’ancienne fenêtre
             dispose();
         });
 
@@ -122,7 +135,7 @@ public class MF extends JFrame implements Observer {
         JButton indiceButton = new JButton("💡 Indice");
         indiceButton.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
         indiceButton.addActionListener(e -> {
-            int[] indice = jeu.indice(boutons);
+            int[] indice = jeu.indice();
             if (indice != null) {
                 JButton button = boutons[indice[0]][indice[1]];
                 if(indice[2] == 1){
