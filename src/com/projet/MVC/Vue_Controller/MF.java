@@ -154,6 +154,10 @@ public class MF extends JFrame implements Observer {
             dispose() ;
             // Revient au menu principal
             new Jeu() ;
+            // Ouvre le menu principal
+            SimpleUI menu = new SimpleUI(jeu) ;
+            // Rend le menu visible
+            menu.setVisible(true) ;
         }) ;
 
         // Titre de la fenêtre
